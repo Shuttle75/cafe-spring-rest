@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.springframework.samples</groupId>
-	<artifactId>spring-petclinic</artifactId>
+	<artifactId>spring-cafe</artifactId>
 	<version>1.5.2</version>
 	<packaging>war</packaging>
 
-	<name>petclinic</name>
-	<description>Spring petclinic project</description>
+	<name>cafe</name>
+	<description>Spring Cafe project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -165,5 +165,4 @@
             </plugin>
         </plugins>
     </reporting>
-    <url>demopetclinic</url>
 </project>
