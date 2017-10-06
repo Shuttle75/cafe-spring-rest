@@ -4,11 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-/**
- * Simple JavaBean domain object representing a visit.
- *
- * @author Alexey Osadchiy
- */
 @Entity
 @Table(name = "cafe_tables")
 public class CafeTable extends NamedEntity {
