@@ -24,8 +24,8 @@ public class ExceptionControllerAdvice {
 	}
 	
 	private class ErrorInfo {
-	    public final String className;
-	    public final String exMessage;
+	    private final String className;
+	    private final String exMessage;
 
 	    public ErrorInfo(Exception ex) {
 	        this.className = ex.getClass().getName();

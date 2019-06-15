@@ -21,7 +21,7 @@ class CafeTableRestController {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CafeTable>> findAllCafeTables() {
         List<CafeTable> results = cafeService.findAllCafeTables();
-        return new ResponseEntity<List<CafeTable>>(results, HttpStatus.OK);
+        return new ResponseEntity<>(results, HttpStatus.OK);
 
     }
 
@@ -29,8 +29,8 @@ class CafeTableRestController {
     public ResponseEntity<CafeTable> getCafeTable(@PathVariable("Id") int Id) {
         CafeTable cafeTable = this.cafeService.findCafeTableById(Id);
         if (cafeTable == null) {
-            return new ResponseEntity<CafeTable>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<CafeTable>(cafeTable, HttpStatus.OK);
+        return new ResponseEntity<>(cafeTable, HttpStatus.OK);
     }
 }

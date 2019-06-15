@@ -21,7 +21,7 @@ class MenuGroupRestController {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MenuGroup>> findAllMenuGroups() {
         List<MenuGroup> results = cafeService.findAllMenuGroups();
-        return new ResponseEntity<List<MenuGroup>>(results, HttpStatus.OK);
+        return new ResponseEntity<>(results, HttpStatus.OK);
 
     }
 
@@ -29,9 +29,9 @@ class MenuGroupRestController {
     public ResponseEntity<MenuGroup> getMenuGroup(@PathVariable("Id") int Id) {
         MenuGroup MenuGroup = this.cafeService.findMenuGroupById(Id);
         if (MenuGroup == null) {
-            return new ResponseEntity<MenuGroup>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<MenuGroup>(MenuGroup, HttpStatus.OK);
+        return new ResponseEntity<>(MenuGroup, HttpStatus.OK);
     }
 }
 

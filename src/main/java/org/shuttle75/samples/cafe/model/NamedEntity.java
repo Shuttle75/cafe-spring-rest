@@ -1,15 +1,14 @@
 package org.shuttle75.samples.cafe.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
     @Column(name = "name")
-    @NotEmpty
+    @NotNull
     private String name;
 
     public String getName() {

@@ -21,22 +21,22 @@ class MenuItemRestController {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MenuItem>> findAllMenuItems() {
         List<MenuItem> results = cafeService.findAllMenuItems();
-        return new ResponseEntity<List<MenuItem>>(results, HttpStatus.OK);
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{Id}/menu-group", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MenuItem>> findAllMenuItemsByMenuGroup(@PathVariable("Id") int Id) {
         List<MenuItem> results = cafeService.findMenuItemsByMenuGroup(Id);
-        return new ResponseEntity<List<MenuItem>>(results, HttpStatus.OK);
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
         @RequestMapping(value = "/{Id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<MenuItem> getMenuItem(@PathVariable("Id") int Id) {
         MenuItem menuItem = this.cafeService.findMenuItemById(Id);
         if (menuItem == null) {
-            return new ResponseEntity<MenuItem>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<MenuItem>(menuItem, HttpStatus.OK);
+        return new ResponseEntity<>(menuItem, HttpStatus.OK);
     }
 }
 

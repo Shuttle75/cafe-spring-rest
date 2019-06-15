@@ -49,7 +49,7 @@ INSERT INTO menu_items(name, menu_group_id, price) VALUES ('Свинячие у�
 INSERT INTO menu_items(name, menu_group_id, price) VALUES ('Гренки с часнфковым соусом',                6,  22);
 INSERT INTO menu_items(name, menu_group_id, price) VALUES ('Куриные крилышки',                          6,  66);
 
-INSERT INTO menu_items(name, menu_group_id, price) VALUES ( 'Маргарита',        7,   94);
+INSERT INTO menu_items(name, menu_group_id, price) VALUES ('Маргарита',         7,   94);
 INSERT INTO menu_items(name, menu_group_id, price) VALUES ('Четыре сыра',       7,  149);
 INSERT INTO menu_items(name, menu_group_id, price) VALUES ('Четыре мяса',       7,  156);
 INSERT INTO menu_items(name, menu_group_id, price) VALUES ('Сыцилийская',       7,  159);
@@ -156,63 +156,69 @@ INSERT INTO waiters  VALUES (6,      'Дубова',      'Анна', '+38097061
 INSERT INTO waiters  VALUES (7,       'Пивак', 'Александр', '+380672856815', 'email@gmail.com');
 
 /**********************************************************************************************************************/
-INSERT INTO bill_dates VALUES('2017-08-01');
-INSERT INTO bill_dates VALUES('2017-08-02');
-INSERT INTO bill_dates VALUES('2017-08-03');
-INSERT INTO bill_dates VALUES('2017-08-04');
-INSERT INTO bill_dates VALUES('2017-08-05');
-INSERT INTO bill_dates VALUES('2017-08-06');
-INSERT INTO bill_dates VALUES('2017-08-07');
-INSERT INTO bill_dates VALUES('2017-08-08');
-INSERT INTO bill_dates VALUES('2017-08-09');
-INSERT INTO bill_dates VALUES('2017-08-10');
-INSERT INTO bill_dates VALUES('2017-08-11');
-INSERT INTO bill_dates VALUES('2017-08-12');
-INSERT INTO bill_dates VALUES('2017-08-13');
-INSERT INTO bill_dates VALUES('2017-08-14');
-INSERT INTO bill_dates VALUES('2017-08-15');
-INSERT INTO bill_dates VALUES('2017-08-16');
-INSERT INTO bill_dates VALUES('2017-08-17');
-INSERT INTO bill_dates VALUES('2017-08-18');
-INSERT INTO bill_dates VALUES('2017-08-19');
-INSERT INTO bill_dates VALUES('2017-08-20');
-INSERT INTO bill_dates VALUES('2017-08-21');
-INSERT INTO bill_dates VALUES('2017-08-22');
-INSERT INTO bill_dates VALUES('2017-08-23');
-INSERT INTO bill_dates VALUES('2017-08-24');
-INSERT INTO bill_dates VALUES('2017-08-25');
-INSERT INTO bill_dates VALUES('2017-08-26');
-INSERT INTO bill_dates VALUES('2017-08-27');
-INSERT INTO bill_dates VALUES('2017-08-28');
-INSERT INTO bill_dates VALUES('2017-08-29');
-INSERT INTO bill_dates VALUES('2017-08-30');
-INSERT INTO bill_dates VALUES('2017-08-31');
+INSERT INTO bill_dates VALUES('2019-07-01');
+INSERT INTO bill_dates VALUES('2019-07-02');
+INSERT INTO bill_dates VALUES('2019-07-03');
+INSERT INTO bill_dates VALUES('2019-07-04');
+INSERT INTO bill_dates VALUES('2019-07-05');
+INSERT INTO bill_dates VALUES('2019-07-06');
+INSERT INTO bill_dates VALUES('2019-07-07');
+INSERT INTO bill_dates VALUES('2019-07-08');
+INSERT INTO bill_dates VALUES('2019-07-09');
+INSERT INTO bill_dates VALUES('2019-07-10');
+INSERT INTO bill_dates VALUES('2019-07-11');
+INSERT INTO bill_dates VALUES('2019-07-12');
+INSERT INTO bill_dates VALUES('2019-07-13');
+INSERT INTO bill_dates VALUES('2019-07-14');
+INSERT INTO bill_dates VALUES('2019-07-15');
+INSERT INTO bill_dates VALUES('2019-07-16');
+INSERT INTO bill_dates VALUES('2019-07-17');
+INSERT INTO bill_dates VALUES('2019-07-18');
+INSERT INTO bill_dates VALUES('2019-07-19');
+INSERT INTO bill_dates VALUES('2019-07-20');
+INSERT INTO bill_dates VALUES('2019-07-21');
+INSERT INTO bill_dates VALUES('2019-07-22');
+INSERT INTO bill_dates VALUES('2019-07-23');
+INSERT INTO bill_dates VALUES('2019-07-24');
+INSERT INTO bill_dates VALUES('2019-07-25');
+INSERT INTO bill_dates VALUES('2019-07-26');
+INSERT INTO bill_dates VALUES('2019-07-27');
+INSERT INTO bill_dates VALUES('2019-07-28');
+INSERT INTO bill_dates VALUES('2019-07-29');
+INSERT INTO bill_dates VALUES('2019-07-30');
 
 INSERT INTO bills (table_id, waiter_id, open_date, persons, payment_type)
 SELECT
   cafe_tables.id,
   cafe_tables.waiter_id,
-  DATE_ADD(DATE_ADD(DATE_ADD(bill_dates.bill_date,
-                             INTERVAL FLOOR(18 + RAND() * 2) HOUR),
-                    INTERVAL FLOOR(RAND() * 60) MINUTE),
-           INTERVAL FLOOR(RAND() * 60) SECOND),
-  FLOOR(2 + (RAND() * 3)),
+  bill_dates.bill_date
+    + interval '1 hour' * abs(18 + random() * 2)
+    + interval '1 minute' * abs(60 + random() * 2)
+    + interval '1 second' * abs(60 + random() * 2),
+  abs(2 + (random() * 3)),
   0
 FROM bill_dates, cafe_tables;
 
-UPDATE bills SET close_date = DATE_ADD(DATE_ADD(DATE_ADD(open_date, INTERVAL 4 HOUR), INTERVAL 12 MINUTE), INTERVAL 35 SECOND);
+UPDATE bills SET
+  close_date = open_date
+    + interval '4 hour' * abs(18 + random() * 2)
+    + interval '12 minute' * abs(60 + random() * 2)
+    + interval '35 second' * abs(60 + random() * 2)
+WHERE 1 = 1;
 
 INSERT INTO bill_items (bill_id ,menu_items_id)
-  SELECT
-    bills.id,
-    FLOOR(1 + (RAND() * 100))
-  FROM bills, waiters;
+SELECT
+  bills.id,
+  floor(1 + (random() * 100))
+FROM bills, waiters, menu_items;
 
 UPDATE bill_items SET price = (SELECT price FROM menu_items WHERE id = bill_items.menu_items_id);
 
-UPDATE bill_items, bills SET bill_items.order_date = DATE_ADD(bills.open_date, INTERVAL FLOOR(RAND() * 60) MINUTE)
-WHERE bill_items.bill_id = bills.id;
+UPDATE bill_items items SET
+  order_date = bills.open_date + interval '1 minute' * FLOOR(random() * 60)
+FROM bills
+WHERE items.bill_id = bills.id;
 
-UPDATE bills SET discount_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id);
-UPDATE bills SET bill_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id);
-UPDATE bills SET whole_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id);
+UPDATE bills SET discount_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id) WHERE 1 = 1;
+UPDATE bills SET bill_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id) WHERE 1 = 1;
+UPDATE bills SET whole_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id) WHERE 1 = 1;

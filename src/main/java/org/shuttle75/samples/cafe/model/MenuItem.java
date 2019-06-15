@@ -1,9 +1,8 @@
 package org.shuttle75.samples.cafe.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "menu_items")
@@ -14,7 +13,7 @@ public class MenuItem extends NamedEntity {
     private MenuGroup menuGroup;
 
     @Column(name = "price")
-    @NotEmpty
+    @NotNull
     @Digits(fraction = 2, integer = 10)
     private float price;
 

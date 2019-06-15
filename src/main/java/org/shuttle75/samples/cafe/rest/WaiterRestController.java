@@ -21,7 +21,7 @@ class WaiterRestController {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Waiter>> findAllWaiters() {
         List<Waiter> results = cafeService.findAllWaiters();
-        return new ResponseEntity<List<Waiter>>(results, HttpStatus.OK);
+        return new ResponseEntity<>(results, HttpStatus.OK);
 
     }
 
@@ -29,9 +29,9 @@ class WaiterRestController {
     public ResponseEntity<Waiter> getWaiter(@PathVariable("Id") int Id) {
         Waiter waiter = this.cafeService.findWaiterById(Id);
         if (waiter == null) {
-            return new ResponseEntity<Waiter>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Waiter>(waiter, HttpStatus.OK);
+        return new ResponseEntity<>(waiter, HttpStatus.OK);
     }
 }
 
