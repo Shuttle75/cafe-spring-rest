@@ -51,7 +51,7 @@ public class BillRestController {
             return new ResponseEntity<Bill>(headers, HttpStatus.BAD_REQUEST);
         }
         bill.setOpenDate(new Date());
-        bill.setCloseDate(new Date());
+//        bill.setCloseDate(new Date());
         this.cafeService.saveBill(bill);
         headers.setLocation(ucBuilder.path("/api/bills/{id}").buildAndExpand(bill.getId()).toUri());
         return new ResponseEntity<Bill>(bill, headers, HttpStatus.CREATED);

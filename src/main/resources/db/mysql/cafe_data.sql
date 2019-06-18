@@ -210,7 +210,7 @@ INSERT INTO bill_items (bill_id ,menu_items_id)
 SELECT
   bills.id,
   floor(1 + (random() * 100))
-FROM bills, waiters, menu_items;
+FROM bills, waiters;
 
 UPDATE bill_items SET price = (SELECT price FROM menu_items WHERE id = bill_items.menu_items_id);
 
@@ -218,6 +218,8 @@ UPDATE bill_items items SET
   order_date = bills.open_date + interval '1 minute' * FLOOR(random() * 60)
 FROM bills
 WHERE items.bill_id = bills.id;
+
+UPDATE bill_items SET price = (SELECT price FROM menu_items WHERE id = bill_items.menu_items_id) WHERE 1 = 1;
 
 UPDATE bills SET discount_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id) WHERE 1 = 1;
 UPDATE bills SET bill_amount = (SELECT SUM(price) FROM bill_items WHERE bill_id = bills.id) WHERE 1 = 1;
