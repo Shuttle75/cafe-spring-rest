@@ -35,9 +35,9 @@ public class ApplicationSwaggerConfig {
 		"1.0",
 		"Petclinic backend terms of service",
 		new Contact(
-				"Vitaliy Fedoriv",
-				"https://github.com/spring-cafe/spring-cafe-rest",
-				"vitaliy.fedoriv@gmail.com"),
+				"Alexey Osadchiy",
+				"https://github.com/Shuttle75/cafe-spring-rest",
+				"alexey.osadchiy@gmail.com"),
 		"Apache 2.0",
 		"http://www.apache.org/licenses/LICENSE-2.0");
    }
