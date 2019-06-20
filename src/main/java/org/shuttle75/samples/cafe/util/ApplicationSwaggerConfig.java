@@ -31,7 +31,7 @@ public class ApplicationSwaggerConfig {
    private ApiInfo getApiInfo() {
 	   return new ApiInfo(
 		"REST Petclinic backend Api Documentation",
-		"This is REST API documentation of the Spring Petclinic backend",
+		"This is REST API documentation of the Spring Cafe backend",
 		"1.0",
 		"Petclinic backend terms of service",
 		new Contact(
