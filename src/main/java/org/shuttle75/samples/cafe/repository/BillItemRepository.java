@@ -1,6 +1,5 @@
 package org.shuttle75.samples.cafe.repository;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 import org.shuttle75.samples.cafe.model.BillItem;
 
@@ -8,15 +7,15 @@ import java.util.List;
 
 public interface BillItemRepository extends Repository<BillItem, Integer> {
 
-    public List<BillItem> findAll() throws DataAccessException;
+    List<BillItem> findAll();
 
-    public List<BillItem> findByBillId(int id) throws DataAccessException;
+    List<BillItem> findByBillId(int id);
 
-    public BillItem findById(int id) throws DataAccessException;
+    BillItem findById(int id);
 
-    public void save(BillItem billItem) throws DataAccessException;
+    void save(BillItem billItem);
 
-    public void delete(BillItem billItem) throws DataAccessException;
+    void delete(BillItem billItem);
 
 
 }
