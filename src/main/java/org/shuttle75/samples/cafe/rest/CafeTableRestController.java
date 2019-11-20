@@ -15,17 +15,21 @@ import java.util.List;
 @RequestMapping(value = "/api/cafe-tables")
 class CafeTableRestController {
 
-    @Autowired
-    private CafeService cafeService;
+    private final CafeService cafeService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Autowired
+    public CafeTableRestController(CafeService cafeService) {
+        this.cafeService = cafeService;
+    }
+
+    @GetMapping("")
     public ResponseEntity<List<CafeTable>> findAllCafeTables() {
         List<CafeTable> results = cafeService.findAllCafeTables();
         return new ResponseEntity<>(results, HttpStatus.OK);
 
     }
 
-    @RequestMapping(value = "/{Id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{Id}")
     public ResponseEntity<CafeTable> getCafeTable(@PathVariable("Id") int Id) {
         CafeTable cafeTable = this.cafeService.findCafeTableById(Id);
         if (cafeTable == null) {

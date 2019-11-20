@@ -21,71 +21,61 @@ import java.util.List;
 @RequestMapping("/api/billItems")
 public class BillItemRestController {
 
-    @Autowired
     private CafeService cafeService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<BillItem>> getBillItems() {
-        List<BillItem> billItemList = cafeService.findAllBillItems();
-        return new ResponseEntity<List<BillItem>>(billItemList, HttpStatus.OK);
+    @Autowired
+    public BillItemRestController(CafeService cafeService) {
+        this.cafeService = cafeService;
     }
 
-    @RequestMapping(value = "/{Id}/bill", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "")
+    public ResponseEntity<List<BillItem>> getBillItems() {
+        List<BillItem> billItemList = cafeService.findAllBillItems();
+        return new ResponseEntity<>(billItemList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{Id}/bill")
     public ResponseEntity<List<BillItem>> getBillItemsByBillId(@PathVariable("Id") int Id) {
         List<BillItem> billItemList = this.cafeService.findBillItemsByBillId(Id);
         if (billItemList == null) {
-            return new ResponseEntity<List<BillItem>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<BillItem>>(billItemList, HttpStatus.OK);
+        return new ResponseEntity<>(billItemList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<BillItem> addBillItem(@RequestBody @Valid BillItem billItem, BindingResult bindingResult,
-                                        UriComponentsBuilder ucBuilder) {
-        BindingErrorsResponse errors = new BindingErrorsResponse();
+    @PostMapping(value = "")
+    public ResponseEntity<BillItem> addBillItem(@RequestBody @Valid BillItem billItem, UriComponentsBuilder ucBuilder) {
         HttpHeaders headers = new HttpHeaders();
-        if (bindingResult.hasErrors() || (billItem == null)) {
-            errors.addAllErrors(bindingResult);
-            headers.add("errors", errors.toJSON());
-            return new ResponseEntity<BillItem>(headers, HttpStatus.BAD_REQUEST);
-        }
         billItem.setOrderDate(new Date());
         this.cafeService.saveBillItem(billItem);
         headers.setLocation(ucBuilder.path("/api/billItems/{id}").buildAndExpand(billItem.getId()).toUri());
-        return new ResponseEntity<BillItem>(billItem, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(billItem, headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{Id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<BillItem> updateBillItem(@PathVariable("billItemId") int billItemId, @RequestBody @Valid BillItem billItem,
-                                            BindingResult bindingResult) {
-        BindingErrorsResponse errors = new BindingErrorsResponse();
-        HttpHeaders headers = new HttpHeaders();
-        if (bindingResult.hasErrors() || (billItem == null)) {
-            errors.addAllErrors(bindingResult);
-            headers.add("errors", errors.toJSON());
-            return new ResponseEntity<BillItem>(headers, HttpStatus.BAD_REQUEST);
-        }
+    @PutMapping(value = "/{billItemId}")
+    public ResponseEntity<BillItem> updateBillItem(@PathVariable("billItemId") int billItemId,
+                                    @RequestBody @Valid BillItem billItem) {
         BillItem currentBillItem = this.cafeService.findBillItemById(billItemId);
         if (currentBillItem == null) {
-            return new ResponseEntity<BillItem>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         currentBillItem.setBill(billItem.getBill());
         currentBillItem.setMenuItem(billItem.getMenuItem());
         currentBillItem.setOrderDate(new Date());
         currentBillItem.setPrice(billItem.getPrice());
         this.cafeService.saveBillItem(currentBillItem);
-        return new ResponseEntity<BillItem>(currentBillItem, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(currentBillItem, HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/{billItemId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @DeleteMapping(value = "/{billItemId}")
     @Transactional
     public ResponseEntity<Void> deleteBill(@PathVariable("billItemId") int billItemId) {
         BillItem billItem = this.cafeService.findBillItemById(billItemId);
         if (billItem == null) {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         this.cafeService.deleteBillItem(billItem);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

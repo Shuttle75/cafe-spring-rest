@@ -22,54 +22,42 @@ import java.util.Date;
 @RequestMapping("/api/bills")
 public class BillRestController {
 
-    @Autowired
-    private CafeService cafeService;
+    private final CafeService cafeService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Page<Bill>> getBills(Pageable pageable) {
-        Page<Bill> page = cafeService.findAllBills(pageable);
-        return new ResponseEntity<Page<Bill>>(page, HttpStatus.OK);
+    @Autowired
+    public BillRestController(CafeService cafeService) {
+        this.cafeService = cafeService;
     }
 
-    @RequestMapping(value = "/{billId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("")
+    public ResponseEntity<Page<Bill>> getBills(Pageable pageable) {
+        Page<Bill> page = cafeService.findAllBills(pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @GetMapping("/{billId}")
     public ResponseEntity<Bill> getBill(@PathVariable("billId") int billId) {
         Bill bill = this.cafeService.findBillById(billId);
         if (bill == null) {
-            return new ResponseEntity<Bill>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Bill>(bill, HttpStatus.OK);
+        return new ResponseEntity<>(bill, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Bill> addBill(@RequestBody @Valid Bill bill , BindingResult bindingResult,
-                                        UriComponentsBuilder ucBuilder) {
-        BindingErrorsResponse errors = new BindingErrorsResponse();
+    @PostMapping("")
+    public ResponseEntity<Bill> addBill(@RequestBody @Valid Bill bill, UriComponentsBuilder ucBuilder) {
         HttpHeaders headers = new HttpHeaders();
-        if (bindingResult.hasErrors() || (bill == null)) {
-            errors.addAllErrors(bindingResult);
-            headers.add("errors", errors.toJSON());
-            return new ResponseEntity<Bill>(headers, HttpStatus.BAD_REQUEST);
-        }
         bill.setOpenDate(new Date());
-//        bill.setCloseDate(new Date());
         this.cafeService.saveBill(bill);
         headers.setLocation(ucBuilder.path("/api/bills/{id}").buildAndExpand(bill.getId()).toUri());
         return new ResponseEntity<Bill>(bill, headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{billId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Bill> updateBill(@PathVariable("billId") int billId, @RequestBody @Valid Bill bill,
-                                            BindingResult bindingResult) {
-        BindingErrorsResponse errors = new BindingErrorsResponse();
-        HttpHeaders headers = new HttpHeaders();
-        if (bindingResult.hasErrors() || (bill == null)) {
-            errors.addAllErrors(bindingResult);
-            headers.add("errors", errors.toJSON());
-            return new ResponseEntity<Bill>(headers, HttpStatus.BAD_REQUEST);
-        }
+    @PutMapping("/{billId}")
+    public ResponseEntity<Bill> updateBill(@PathVariable("billId") int billId, @RequestBody @Valid Bill bill) {
         Bill currentBill = this.cafeService.findBillById(billId);
         if (currentBill == null) {
-            return new ResponseEntity<Bill>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         currentBill.setCafeTable(bill.getCafeTable());
         currentBill.setWaiter(bill.getWaiter());
@@ -77,18 +65,18 @@ public class BillRestController {
         currentBill.setOpenDate(bill.getOpenDate());
         currentBill.setCloseDate(bill.getCloseDate());
         this.cafeService.saveBill(currentBill);
-        return new ResponseEntity<Bill>(currentBill, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(currentBill, HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/{billId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @DeleteMapping("/{billId}")
     @Transactional
     public ResponseEntity<Void> deleteBill(@PathVariable("billId") int billId) {
         Bill bill = this.cafeService.findBillById(billId);
         if (bill == null) {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         this.cafeService.deleteBill(bill);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

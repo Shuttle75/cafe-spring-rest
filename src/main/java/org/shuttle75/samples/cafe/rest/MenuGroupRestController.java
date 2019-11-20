@@ -15,17 +15,20 @@ import java.util.List;
 @RequestMapping(value = "/api/menu-groups")
 class MenuGroupRestController {
 
-    @Autowired
-    private CafeService cafeService;
+    private final CafeService cafeService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Autowired
+    public MenuGroupRestController(CafeService cafeService) {
+        this.cafeService = cafeService;
+    }
+
+    @GetMapping("")
     public ResponseEntity<List<MenuGroup>> findAllMenuGroups() {
         List<MenuGroup> results = cafeService.findAllMenuGroups();
         return new ResponseEntity<>(results, HttpStatus.OK);
-
     }
 
-    @RequestMapping(value = "/{Id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{Id}")
     public ResponseEntity<MenuGroup> getMenuGroup(@PathVariable("Id") int Id) {
         MenuGroup MenuGroup = this.cafeService.findMenuGroupById(Id);
         if (MenuGroup == null) {

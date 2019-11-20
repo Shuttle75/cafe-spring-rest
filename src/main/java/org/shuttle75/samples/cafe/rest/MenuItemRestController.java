@@ -15,22 +15,26 @@ import java.util.List;
 @RequestMapping(value = "/api/menu-items")
 class MenuItemRestController {
 
-    @Autowired
-    private CafeService cafeService;
+    private final CafeService cafeService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Autowired
+    public MenuItemRestController(CafeService cafeService) {
+        this.cafeService = cafeService;
+    }
+
+    @GetMapping("")
     public ResponseEntity<List<MenuItem>> findAllMenuItems() {
         List<MenuItem> results = cafeService.findAllMenuItems();
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{Id}/menu-group", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{Id}/menu-group")
     public ResponseEntity<List<MenuItem>> findAllMenuItemsByMenuGroup(@PathVariable("Id") int Id) {
         List<MenuItem> results = cafeService.findMenuItemsByMenuGroup(Id);
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
-        @RequestMapping(value = "/{Id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{Id}")
     public ResponseEntity<MenuItem> getMenuItem(@PathVariable("Id") int Id) {
         MenuItem menuItem = this.cafeService.findMenuItemById(Id);
         if (menuItem == null) {
