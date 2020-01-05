@@ -1,12 +1,16 @@
 package org.shuttle75.samples.cafe.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "bills")
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Bill extends BaseEntity {
 
     @ManyToOne
@@ -46,75 +50,4 @@ public class Bill extends BaseEntity {
     @Column(name = "transact_number")
     private String transactNumber;
 
-    public CafeTable getCafeTable() {
-        return cafeTable;
-    }
-
-    public void setCafeTable(CafeTable cafeTable) {
-        this.cafeTable = cafeTable;
-    }
-
-    public Waiter getWaiter() {
-        return waiter;
-    }
-
-    public void setWaiter(Waiter waiter) {
-        this.waiter = waiter;
-    }
-
-    public Date getOpenDate() {
-        return openDate;
-    }
-
-    public void setOpenDate(Date openDate) {
-        this.openDate = openDate;
-    }
-
-    public Date getCloseDate() {
-        return closeDate;
-    }
-
-    public void setCloseDate(Date closeDate) {
-        this.closeDate = closeDate;
-    }
-
-    public Integer getPersons() {
-        return persons;
-    }
-
-    public void setPersons(Integer persons) {
-        this.persons = persons;
-    }
-
-    public Integer getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public void setDiscountPercent(Integer discountPercent) {
-        this.discountPercent = discountPercent;
-    }
-
-    public Float getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public void setDiscountAmount(Float discountAmount) {
-        this.discountAmount = discountAmount;
-    }
-
-    public Float getBillAmount() {
-        return billAmount;
-    }
-
-    public void setBillAmount(Float orderAmount) {
-        this.billAmount = billAmount;
-    }
-
-    public Float getWholeAmount() {
-        return wholeAmount;
-    }
-
-    public void setWholeAmount(Float wholeAmount) {
-        this.wholeAmount = wholeAmount;
-    }
 }

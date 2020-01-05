@@ -1,13 +1,9 @@
 package org.shuttle75.samples.cafe.repository;
 
 import org.shuttle75.samples.cafe.model.Waiter;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface WaiterRepository extends Repository<Waiter, Integer> {
-
-	List<Waiter> findAll();
+public interface WaiterRepository extends JpaRepository<Waiter, Integer> {
 
     Waiter findById(int id);
 }

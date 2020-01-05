@@ -1,11 +1,16 @@
 package org.shuttle75.samples.cafe.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "menu_items")
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class MenuItem extends NamedEntity {
 
     @ManyToOne
@@ -17,19 +22,4 @@ public class MenuItem extends NamedEntity {
     @Digits(fraction = 2, integer = 10)
     private float price;
 
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public MenuGroup getMenuGroup() {
-        return menuGroup;
-    }
-
-    public void setMenuGroup(MenuGroup menuGroup) {
-        this.menuGroup = menuGroup;
-    }
 }

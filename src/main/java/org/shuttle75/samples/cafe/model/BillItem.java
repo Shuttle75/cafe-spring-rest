@@ -1,21 +1,23 @@
 package org.shuttle75.samples.cafe.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "bill_items")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BillItem extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "bill_id")
     private Bill bill;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_items_id ")
     private MenuItem menuItem;
 
@@ -25,41 +27,4 @@ public class BillItem extends BaseEntity {
 
     @Column(name = "price")
     private Float price;
-
-
-    public Bill getBill() {
-        return bill;
-    }
-
-    public void setBill(Bill bill) {
-        this.bill = bill;
-    }
-
-    public MenuItem getMenuItem() {
-        return menuItem;
-    }
-
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
-    }
-
-    public String getOrderDateString() {
-        return orderDate.toString();
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
 }

@@ -1,13 +1,9 @@
 package org.shuttle75.samples.cafe.repository;
 
 import org.shuttle75.samples.cafe.model.MenuGroup;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface MenuGroupRepository extends Repository<MenuGroup, Integer> {
-
-	List<MenuGroup> findAll();
+public interface MenuGroupRepository extends JpaRepository<MenuGroup, Integer> {
 
     MenuGroup findById(int id);
 }
