@@ -3,6 +3,7 @@ package org.shuttle75.samples.cafe.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,11 +14,11 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class Bill extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "table_id")
     private CafeTable cafeTable;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "waiter_id")
     private Waiter waiter;
 

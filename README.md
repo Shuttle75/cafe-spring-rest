@@ -16,3 +16,10 @@ You can then access Spring Cafe here: http://localhost:8080/
 ## Swagger REST API documentation presented here:
 http://localhost:8080/swagger-ui.html
 
+1. @PersistenceContext(type=TRANSACTION, EXTENDED)
+2. Spring proxy JDK and CGLIB
+3. @Transactional(propagation=REQUIRED,SUPPORTS,MANDATORY,REQUIRES_NEW,NOT_SUPPORTED,NEVER,NESTED)
+4. @Transactional(isolation=DEFAULT,READ_UNCOMMITTED,READ_COMMITTED,REPEATABLE_READ,SERIALIZABLE)
+5. @Fetch(SELECT,JOIN,SUBSELECT), @BatchSize(size=20), JOIN FETCH, Repository.findAll()
+6. PersistenceContext, ((SessionImpl) entityManager.getDelegate()).persistenceContext > 5k
+
