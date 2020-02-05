@@ -1,10 +1,10 @@
-DROP TABLE bill_items;
-DROP TABLE bills;
-DROP TABLE cafe_tables;
-DROP TABLE waiters;
-DROP TABLE menu_items;
-DROP TABLE menu_groups;
-DROP TABLE bill_dates;
+DROP TABLE IF EXISTS bill_items;
+DROP TABLE IF EXISTS bills;
+DROP TABLE IF EXISTS cafe_tables;
+DROP TABLE IF EXISTS waiters;
+DROP TABLE IF EXISTS menu_items;
+DROP TABLE IF EXISTS menu_groups;
+DROP TABLE IF EXISTS bill_dates;
 
 CREATE TABLE cafe_tables (
   id          int NOT NULL PRIMARY KEY,

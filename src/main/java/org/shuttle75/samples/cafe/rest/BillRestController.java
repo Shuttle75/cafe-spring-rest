@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/bills")
 public class BillRestController {
 
