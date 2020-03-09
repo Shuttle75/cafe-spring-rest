@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/billItems")
 public class BillItemRestController {
 

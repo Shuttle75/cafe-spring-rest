@@ -17,7 +17,7 @@ public class BillItem extends BaseEntity {
     @JoinColumn(name = "bill_id")
     private Bill bill;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "menu_items_id ")
     private MenuItem menuItem;
 
